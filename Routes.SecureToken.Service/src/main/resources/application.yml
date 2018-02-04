@@ -1,0 +1,66 @@
+spring:
+  profiles.active: production
+
+---
+
+
+info:
+  app:
+    name: routes-securetoken-service
+    description: Creates oath2 jwt tokens
+    version: 1.0.0
+    mode: default
+
+endpoints:
+  info:
+    enabled: true
+    sensitive: false
+
+  health:
+    sensitive: false
+    
+  metrics:
+    sensitive: false
+
+server:
+    port:     9505
+
+spring:
+    profiles: production
+    application:
+        name: routes-securetoken-service 
+
+eureka.client.enabled: true
+
+jwtsecurity:
+    signingKey: MaYzkSjmkzPC57L
+    encondingStrength: 256
+    securityRealm: Routes Realm
+
+    clientId: RouteSystemClient
+    clientSecret: XY7kmzoNzl100
+    grantType: password
+    scopeRead: read
+    scopeWrite: write
+    resourceId: RoutesResourceId
+
+security:       
+    oauth2:
+        resource:
+            filter-order: 3
+
+eureka:
+    client:
+        serviceUrl:
+            defaultZone:    http://eureka-server:8761/eureka
+        healthcheck:
+            enabled: true
+        instance:
+            leaseRenewalIntervalInSeconds: 15
+            preferIpAddress:  true
+
+---
+spring:
+    profiles: testing
+
+eureka.client.enabled: false

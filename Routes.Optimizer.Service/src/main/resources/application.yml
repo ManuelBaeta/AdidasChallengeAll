@@ -1,0 +1,59 @@
+spring:
+  profiles.active: production
+
+---
+
+
+info:
+  app:
+    name: routes-optimizer-service
+    description: Provides Optimized routes
+    version: 1.0.0
+    mode: default
+
+endpoints:
+  info:
+    enabled: true
+    sensitive: false
+
+  health:
+    sensitive: false
+    
+  metrics:
+    sensitive: false
+
+server:
+    port:     9405
+
+spring:
+    profiles: production
+    application:
+        name: routes-optimizer-service 
+
+routes-store-service:
+    ribbon:
+        ReadTimeout:    10000 
+        ConnectTimeout: 10000
+        NFLoadBalancerRuleClassName:  com.netflix.loadbalancer.WeightedResponseTimeRule        
+
+eureka.client.enabled: true
+
+eureka:
+    client:
+        serviceUrl:
+            defaultZone:    http://eureka-server:8761/eureka
+        healthcheck:
+            enabled: true
+        instance:
+            leaseRenewalIntervalInSeconds: 15
+            preferIpAddress:  true
+
+jwtsecurity:
+    resourceId: RoutesResourceId
+    signingKey: MaYzkSjmkzPC57L  
+
+---
+spring:
+    profiles: testing
+
+eureka.client.enabled: false

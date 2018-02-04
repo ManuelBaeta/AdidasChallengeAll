@@ -1,0 +1,92 @@
+spring:
+  profiles.active: production
+
+---
+
+
+info:
+  app:
+    name: Zuul-server
+    description: Edge-router/load balancer powered by Netflix Zuul
+    version: 1.0.0
+    mode: default
+
+endpoints:
+  info:
+    enabled: true
+    sensitive: false
+
+  health:
+    sensitive: false
+    
+  metrics:
+    sensitive: false
+
+server:
+    port:     9100
+
+spring:
+    profiles:    production
+    application: 
+        name: zuul-edge-router
+
+# Zuul uses ribbon as client side load balancer/router. Some parameters can be tweaked. Follow this pattern: <clientName>.<nameSpace>.<propertyName>=<value>. If no nameSpace will affect all clients.
+# Some examples are <client>.ribbon.ConnectTimeout,  <client>.ribbon.ReadTimeout, <client>.ribbon.MaxAutoRetries, <client>.ribbon.MaxAutoRetriesNextServer
+ribbon:
+    ReadTimeout:    10000 
+    ConnectTimeout: 10000
+
+# Disable Hystrix timeout globally (for all services)
+hystrix.command.default.execution.timeout.enabled: false
+
+# Route this: http://localhost:port/spring-boot-palindrome/api/palindromes/
+# As Zuul is an Eureka-server client itself it has access to Eureka registry:
+# that path is meant to be directed towards "spring-boot-palindrome" serviceId
+zuul:
+    ignoredServices: '*'
+    routes:
+        routes-store-service:
+              path:       /routes-store-service/api/**
+              sensitiveHeaders: 
+              serviceId:  routes-store-service
+              stripPrefix: false
+        spring-boot-palindrome:
+              path:       /spring-boot-palindrome/api/**
+              sensitiveHeaders: 
+              serviceId:  spring-boot-palindrome
+              stripPrefix: false            
+        routes-optimizer-service:
+              path:       /routes-optimizer-service/api/**
+              sensitiveHeaders: 
+              serviceId:  routes-optimizer-service 
+              stripPrefix: false 
+        routes-securetoken-service:  
+              path:       /oauth/**
+              sensitiveHeaders: 
+              serviceId:  routes-securetoken-service 
+              stripPrefix: false               
+
+# Zuul uses ribbon as client side load balancer/router.  ZuulProperties
+# A load balancer has 3 main components: Rule(which server to use), Ping(Ensure liveness of servers), ServerList(List of servers to use)
+# Rule allowed:
+#  AvailabilityFilteringRule: load balancer rule that filters out servers that are circuit breaker tripped state.
+#  RoundRobin: By default one
+#  WeightedResponseTimeRule: Extends round robin, uses the average/percentile response times to assign dynamic "weights" per Server which is then used in the "Weighted Round Robin" fashion
+# It follows pattern <client>.ribbon.NFLoadBalancerRuleClassName: <one of the previous one> . If no nameSpace will affect all clients.
+#spring-boot-palindrome:
+#    ribbon:
+#      NFLoadBalancerRuleClassName:  com.netflix.loadbalancer.WeightedResponseTimeRule 
+
+
+# This Zuul implementation uses Eureka service registry to have a dynamic set of ServerList availables.
+# It is configured Eureka Server Url to register with, Zuul will "ping" periodically to avoid being removed from Eureka Server registry. 
+eureka:
+    client:
+        serviceUrl:
+            defaultZone:    http://eureka-server:8761/eureka
+        healthcheck:
+            enabled: true
+        instance:
+            leaseRenewalIntervalInSeconds: 15
+            preferIpAddress:  true
+     

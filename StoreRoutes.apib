@@ -1,0 +1,232 @@
+FORMAT: 1A
+HOST: http://routes-store-service/api
+
+# StoreRoutes
+StoredRoutes is a simple providing CRUD operations regarding routes.
+
+## Route Collection [/routes]
+
+### List All Routes [GET]
+It retrieves all stored routes.
++ Request
+
+    + Headers
+    
+            Authorization: Bearer {{token}}
+
++ Response 200 (application/json) 
+
+    All available routes were retrieved
+    + Body
+
+            [
+                {
+                    "id": "1",
+                    "city": "MAD",
+                    "destination": "ZAR",
+                    "departure": "27-01-2018 06:10:00",
+                    "arrival": "27-01-2018 09:10:00"
+                },
+                {
+                    "id": "2",
+                    "city": "MAD",
+                    "destination": "GUA",
+                    "departure": "27-01-2018 06:10:00",
+                    "arrival": "27-01-2018 07:10:00"
+                }
+            ]
+
++ Response 401 (application/json) 
+
+    Unauthorized.
+    + Body
+    
+            {
+                "error": "unauthorized",
+                "error_description": "Full authentication is required to access this resource"
+            }   
+    
++ Response 404 (application/json) 
+
+    There are no routes available.
+    + Body
+
++ Response 500 (application/json) 
+
+    Unexpected internal server error.   
+    + Body
+
+
+### Create a New Route [POST]
+It adds a new route. It takes a JSON object containing the route definition: city, destination, departure, arrival.
++ Request (application/json)
+
+    + Headers
+    
+            Authorization: Bearer {{token}}
+            
+    + Body
+    
+            {
+                "city" : "MAD",
+                "destination" : "ZAR",
+                "departure": "27-01-2018 18:10:00",
+                "arrival": "27-01-2018 21:10:00"
+            }
+        
++ Response 200 (application/json)
+
+    Route was added successfully. Added route including internal id is included in the response.
+    + Body
+    
+            {
+                "id": "4",
+                "city" : "MAD",
+                "destination" : "ZAR",
+                "departure": "27-01-2018 18:10:00",
+                "arrival": "27-01-2018 21:10:00"
+            }
+
++ Response 401 (application/json) 
+
+    Unauthorized.
+    + Body
+    
+            {
+                "error": "unauthorized",
+                "error_description": "Full authentication is required to access this resource"
+            } 
+            
++ Response 400 (application/json)
+
+    Bad Request. Route Json payload is incorrect.
+    + Body
+    
++ Response 409 (application/json)
+
+    Conflict. There is already a route with the same origin and destination.
+    + Body
+    
++ Response 500 (application/json)
+
+    Unexpected internal server error.   
+    + Body
+
+
+### Delete all Route [DELETE]
+It deletes all stored routes.
++ Request
+
+    + Headers
+    
+            Authorization: Bearer {{token}}
+
++ Response 401 (application/json) 
+
+    Unauthorized.
+    + Body
+    
+            {
+                "error": "unauthorized",
+                "error_description": "Full authentication is required to access this resource"
+            } 
+            
++ Response 200 (application/json)
+
+    All routes were deleted.
+    + Body
+    
++ Response 404 (application/json)
+
+    There were no routes available to delete.
+    + Body
+
++ Response 500 (application/json)
+
+    Unexpected internal server error.   
+    + Body
+
+
+## Route [/routes/{route_id}]
+
++ Parameters
+
+    + route_id (number) - ID of the route in the form of an integer
+
+
+### List a Route [GET]
+It retrieves route identified by provided route_id.
++ Request
+
+    + Headers
+    
+            Authorization: Bearer {{token}}
+            
++ Response 200 (application/json)
+
+    Route identified by provided route_id is retrieved.
+    + Body
+    
+            [
+                {
+                    "id": "1",
+                    "city": "MAD",
+                    "destination": "ZAR",
+                    "departure": "27-01-2018 06:10:00",
+                    "arrival": "27-01-2018 09:10:00"
+                }
+            ]
+
++ Response 401 (application/json) 
+
+    Unauthorized.
+    + Body
+    
+            {
+                "error": "unauthorized",
+                "error_description": "Full authentication is required to access this resource"
+            } 
+
++ Response 404 (application/json) 
+
+    There is no route available identified by such route_id.
+    + Body
+
++ Response 500 (application/json) 
+
+    Unexpected internal server error.   
+    + Body
+
+
+### Delete a Route [DELETE]
+It deletes route identified by provided route_id.
++ Request
+
+    + Headers
+    
+            Authorization: Bearer {{token}}
+            
++ Response 200 (application/json)
+
+        Route identified by provided route_id is retrieved.
+        
++ Response 401 (application/json) 
+
+    Unauthorized.
+    + Body
+    
+            {
+                "error": "unauthorized",
+                "error_description": "Full authentication is required to access this resource"
+            }         
+        
++ Response 404 (application/json) 
+
+    There is no route available identified by such route_id.
+    + Body
+
++ Response 500 (application/json) 
+
+    Unexpected internal server error.   
+    + Body
+

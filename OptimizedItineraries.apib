@@ -1,0 +1,99 @@
+FORMAT: 1A
+HOST: http://polls.apiblueprint.org/
+
+# OptimizedItineraries
+
+It is an API providing optimizing itineraries.
+
+
+## Route  [/route/{?origin}]
+
++ Parameters
+
+    + origin (string, required) - Origin city to calculate itineraries.
+
+### List All Optimized itineraries from provided origin to all available destinations [GET]
+
++ Request
+
+    + Headers
+    
+            Authorization: Bearer {{token}}
+
++ Response 200 (application/json)
+
+    All available optimized itineraries from that origin towards all destiantions are retrieved
+    + Body
+
+            {
+                "itineraries_optimized_time": [
+                    {
+                        "optimal_itineraries": [["BAR", "GUA", "MAD"]],
+                        "cost": 120,
+                        "origin": "BAR",
+                        "destination": "MAD"
+                    },
+                    {
+                        "optimal_itineraries": [["BAR","GUA"]],
+                        "cost": 60,
+                        "origin": "BAR",
+                        "destination": "GUA"
+                    },
+                    {
+                        "optimal_itineraries": [["BAR","GUA","ZAR"]],
+                        "cost": 120,
+                        "origin": "BAR",
+                        "destination": "ZAR"
+                    }
+                ],
+                "itineraries_optimized_hops": [
+                    {
+                        "optimal_itineraries": [["BAR","MAD"]],
+                        "cost": 1,
+                        "origin": "BAR",
+                        "destination": "MAD"
+                    },
+                    {
+                        "optimal_itineraries": [["BAR","GUA"]],
+                        "cost": 1,
+                        "origin": "BAR",
+                        "destination": "GUA"
+                    },
+                    {
+                        "optimal_itineraries": [["BAR","GUA","ZAR"]],
+                        "cost": 2,
+                        "origin": "BAR",
+                        "destination": "ZAR"
+                    }
+                ]            
+            }
+
++ Response 400 (application/json)
+
+    Bad Request. Error composing optimized itineraries JSON response
+    + Body
+
++ Response 401 (application/json) 
+
+    Unauthorized.
+    + Body
+    
+            {
+                "error": "unauthorized",
+                "error_description": "Full authentication is required to access this resource"
+            }  
+    
++ Response 404 (application/json)
+
+    Not Found. Origin query parameter is not provided or is not a present city.
+    + Body
+    
++ Response 500 (application/json)
+
+    Unexpected internal server error.   
+    + Body
+    
++ Response 503 (application/json)
+
+    Service Unavailable. Problems connecting to backend service providing routes storage.   
+    + Body

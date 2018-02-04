@@ -1,0 +1,262 @@
+{
+	"variables": [],
+	"info": {
+		"name": "Fill Routes",
+		"_postman_id": "77e089f4-08c2-bfa2-b5f2-3c139cf0e889",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "REquest token",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"postman.setEnvironmentVariable(\"token\", jsonData.access_token);"
+						]
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": {
+						"username": "RouteSystemClient",
+						"password": "XY7kmzoNzl100",
+						"saveHelperData": true,
+						"showPassword": false
+					}
+				},
+				"url": {
+					"raw": "http://192.168.99.100:9505/oauth/token?grant_type=password&username=admin.admin&password=admin",
+					"protocol": "http",
+					"host": [
+						"192",
+						"168",
+						"99",
+						"100"
+					],
+					"port": "9505",
+					"path": [
+						"oauth",
+						"token"
+					],
+					"query": [
+						{
+							"key": "grant_type",
+							"value": "password",
+							"equals": true,
+							"description": ""
+						},
+						{
+							"key": "username",
+							"value": "admin.admin",
+							"equals": true,
+							"description": ""
+						},
+						{
+							"key": "password",
+							"value": "admin",
+							"equals": true,
+							"description": ""
+						}
+					],
+					"variable": []
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Basic Um91dGVTeXN0ZW1DbGllbnQ6WFk3a216b056bDEwMA==",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Add route MAD-ZAR",
+			"request": {
+				"url": "http://192.168.99.100:9100/routes-store-service/api/route",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer  {{token}}",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"city\" : \"MAD\",\n\t\"destination\" : \"ZAR\",\n\t\"departure\": \"27-01-2018 18:10:00\",\n\t\"arrival\": \"27-01-2018 21:10:00\"\n}"
+				},
+				"description": "Add a new route"
+			},
+			"response": []
+		},
+		{
+			"name": "Add route MAD-GUA",
+			"request": {
+				"url": "http://192.168.99.100:9100/routes-store-service/api/route",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer  {{token}}",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"city\" : \"MAD\",\n\t\"destination\" : \"GUA\",\n\t\"departure\": \"27-01-2018 18:10:00\",\n\t\"arrival\": \"27-01-2018 19:10:00\"\n}"
+				},
+				"description": "Add a new route"
+			},
+			"response": []
+		},
+		{
+			"name": "Add route ZAR-BAR",
+			"request": {
+				"url": "http://192.168.99.100:9100/routes-store-service/api/route",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer  {{token}}",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"city\" : \"ZAR\",\n\t\"destination\" : \"BAR\",\n\t\"departure\": \"27-01-2018 18:10:00\",\n\t\"arrival\": \"27-01-2018 21:10:00\"\n}"
+				},
+				"description": "Add a new route"
+			},
+			"response": []
+		},
+		{
+			"name": "Add route BAR-GUA",
+			"request": {
+				"url": "http://192.168.99.100:9100/routes-store-service/api/route",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer  {{token}}",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"city\" : \"BAR\",\n\t\"destination\" : \"GUA\",\n\t\"departure\": \"27-01-2018 18:10:00\",\n\t\"arrival\": \"27-01-2018 19:10:00\"\n}"
+				},
+				"description": "Add a new route"
+			},
+			"response": []
+		},
+		{
+			"name": "Add route BAR-MAD",
+			"request": {
+				"url": "http://192.168.99.100:9100/routes-store-service/api/route",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer  {{token}}",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"city\" : \"BAR\",\n\t\"destination\" : \"MAD\",\n\t\"departure\": \"27-01-2018 18:10:00\",\n\t\"arrival\": \"27-01-2018 21:10:00\"\n}"
+				},
+				"description": "Add a new route"
+			},
+			"response": []
+		},
+		{
+			"name": "Add route GUA-ZAR",
+			"request": {
+				"url": "http://192.168.99.100:9100/routes-store-service/api/route",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer  {{token}}",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"city\" : \"GUA\",\n\t\"destination\" : \"ZAR\",\n\t\"departure\": \"27-01-2018 18:10:00\",\n\t\"arrival\": \"27-01-2018 19:10:00\"\n}"
+				},
+				"description": "Add a new route"
+			},
+			"response": []
+		},
+		{
+			"name": "Add route GUA-MAD",
+			"request": {
+				"url": "http://192.168.99.100:9100/routes-store-service/api/route",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer  {{token}}",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"city\" : \"GUA\",\n\t\"destination\" : \"MAD\",\n\t\"departure\": \"27-01-2018 18:10:00\",\n\t\"arrival\": \"27-01-2018 19:10:00\"\n}"
+				},
+				"description": "Add a new route"
+			},
+			"response": []
+		}
+	]
+}

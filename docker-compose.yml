@@ -1,0 +1,66 @@
+version: '3'
+
+services:
+    eureka-server:
+        container_name: eureka-server
+        build: 
+            context: ./EurekaServer
+            dockerfile: Dockerfile
+            args:
+                - SPRING_PROFILE=production
+        ports:
+            - "8761:8761"
+
+    edge-router:
+        container_name: edge-router
+        build: 
+            context: ./Zuul
+            dockerfile: Dockerfile
+            args:
+                - SPRING_PROFILE=production
+        ports:
+            - "9100:9100"
+        depends_on:
+            - eureka-server
+
+    routes-securetoken-service:
+        container_name: routes-securetoken-service
+        build: 
+            context: ./Routes.SecureToken.Service
+            dockerfile: Dockerfile
+            args:
+                - SPRING_PROFILE=production
+        ports:
+            - "9505:9505"
+        depends_on:
+            - eureka-server
+            - edge-router              
+            
+    routes-store-service:
+        container_name: routes-store-service
+        build: 
+            context: ./Routes.Store.Service
+            dockerfile: Dockerfile
+            args:
+                - SPRING_PROFILE=production
+        ports:
+            - "9305:9305"
+        depends_on:
+            - edge-router
+            - eureka-server
+            - routes-securetoken-service            
+
+    routes-optimizer-service:
+        container_name: routes-optimizer-service
+        build: 
+            context: ./Routes.Optimizer.Service
+            dockerfile: Dockerfile
+            args:
+                - SPRING_PROFILE=production
+        ports:
+            - "9405:9305"
+        depends_on:
+            - edge-router
+            - eureka-server
+            - routes-store-service
+            - routes-securetoken-service

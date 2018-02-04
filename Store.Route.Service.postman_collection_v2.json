@@ -1,0 +1,197 @@
+{
+	"variables": [],
+	"info": {
+		"name": "Store.Route.Service",
+		"_postman_id": "81d9044a-3504-8940-1b70-efc974b11133",
+		"description": "Testing API to perform crud operations on Routes",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Add route",
+			"request": {
+				"url": "http://192.168.99.100:9100/routes-store-service/api/route",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer  {{token}}",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"city\" : \"ZAR\",\n\t\"destination\" : \"MCH\",\n\t\"departure\": \"27-01-2018 21:10:00\",\n\t\"arrival\": \"27-01-2018 22:10:00\"\n}"
+				},
+				"description": "Add a new route"
+			},
+			"response": []
+		},
+		{
+			"name": "Get routes",
+			"request": {
+				"url": "http://192.168.99.100:9100/routes-store-service/api/route",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token}}",
+						"description": ""
+					}
+				],
+				"body": {},
+				"description": "Get routes"
+			},
+			"response": []
+		},
+		{
+			"name": "Delete route",
+			"request": {
+				"url": "http://192.168.99.100:9100/routes-store-service/api/route",
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer  {{token}}",
+						"description": ""
+					}
+				],
+				"body": {},
+				"description": "Delete route from store service"
+			},
+			"response": []
+		},
+		{
+			"name": "Get optimized route",
+			"request": {
+				"url": {
+					"raw": "http://192.168.99.100:9100/routes-optimizer-service/api/route?origin=ZAR",
+					"protocol": "http",
+					"host": [
+						"192",
+						"168",
+						"99",
+						"100"
+					],
+					"port": "9100",
+					"path": [
+						"routes-optimizer-service",
+						"api",
+						"route"
+					],
+					"query": [
+						{
+							"key": "origin",
+							"value": "ZAR",
+							"equals": true,
+							"description": ""
+						}
+					],
+					"variable": []
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer  {{token}}",
+						"description": ""
+					}
+				],
+				"body": {},
+				"description": "Get optimized route for the origin"
+			},
+			"response": []
+		},
+		{
+			"name": "Request token",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"postman.setEnvironmentVariable(\"token\", jsonData.access_token);"
+						]
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": {
+						"username": "RouteSystemClient",
+						"password": "XY7kmzoNzl100",
+						"saveHelperData": true,
+						"showPassword": false
+					}
+				},
+				"url": {
+					"raw": "http://192.168.99.100:9100/oauth/token?grant_type=password&username=admin.admin&password=admin",
+					"protocol": "http",
+					"host": [
+						"192",
+						"168",
+						"99",
+						"100"
+					],
+					"port": "9100",
+					"path": [
+						"oauth",
+						"token"
+					],
+					"query": [
+						{
+							"key": "grant_type",
+							"value": "password",
+							"equals": true,
+							"description": ""
+						},
+						{
+							"key": "username",
+							"value": "admin.admin",
+							"equals": true,
+							"description": ""
+						},
+						{
+							"key": "password",
+							"value": "admin",
+							"equals": true,
+							"description": ""
+						}
+					],
+					"variable": []
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Basic Um91dGVTeXN0ZW1DbGllbnQ6WFk3a216b056bDEwMA==",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"description": ""
+			},
+			"response": []
+		}
+	]
+}

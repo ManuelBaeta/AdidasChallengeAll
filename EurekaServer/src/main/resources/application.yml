@@ -1,0 +1,48 @@
+spring:
+  profiles.active: production
+
+---
+
+
+info:
+  app:
+    name: EurekaServer
+    description: Service registry powered by Netflix Eureka Server
+    version: 1.0.0
+    mode: default
+
+endpoints:
+  info:
+    enabled: true
+    sensitive: false
+
+  health:
+    sensitive: false
+    
+  metrics:
+    sensitive: false
+
+server:
+    port:     8761
+
+spring:
+    profiles: production
+
+eureka:
+    instance:
+        hostname:     localhost
+        
+        # Time in secs that Eureka waits since it received the last heartbeat before it proceeds to remove
+        # this instance from its view.
+        leaseExpirationDurationInSeconds:   45
+        preferIpAddress:  true
+
+    client:
+        # Standalone mode : Will not connect to other Eureka Server instances:
+        #    This server will not register with Eureka for discovery by others
+        #    This server should not fetch Eureka info from Eureka Server.
+        
+        registerWithEureka: false
+        fetchRegistry:      false
+        serviceUrl:
+            defaultZone:    http://${eureka.instance.hostname}:${server.port}/eureka/
