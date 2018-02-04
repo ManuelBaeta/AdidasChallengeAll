@@ -4,7 +4,7 @@ Challenge Project consists of 5 projects:
 ## Routes.SecureToken.Service
 It is a Spring boot application  acting as an Authorization Server (follows Oauth2 RFC). It listens on port 9505.
 For this project, it has been arranged with:
-* A predefined client. In a real scenario is required an onboarding process for clients to define its id, secret, callback url, grant types allowed, scopes, resourcesIds, etc.
+* A predefined client. In a real scenario is required an onboard process for clients to define its id, secret, callback url, grant types allowed, scopes, resourcesIds, etc.
 * For that client is configured following items: clientId=RouteSystemClient, clientSecret=XY7kmzoNzl100, grant type=resouce owner password(password), scopes(read,write) and resourceId(RoutesResourceId)
 * As the grant type is password, it is required to setup a user (user=admin.admin, passwd=admin) in a in memory UserDetailsService implementation.
 * A secret key to sign token is configured on the application.yml
@@ -41,7 +41,7 @@ It is a Eureka client.
 
 ## EurekaServer
 It is a Spring boot application based on Spring Cloud Netflix EurekaServer acting as service registry, it is used by all the running microservices. 
-It listens on port 8761 (default). Once “eureka client” microservices register with EurekaServer, they receive periodic updates about surrounding services (its status and running instances URL).
+It listens on port 8761 (default). Once “eureka client” microservices register with EurekaServer, they receive periodic updates about surrounding services (its status and running instances URL).  
 Service registry provides flexibility, resilience to failure (fault tolerant) and a way to scale up, to microservices architectures:
 * Microservices are not tied to predefined URL, they use service name to look up others, this makes architecture flexible, easy to scale (running more instances of a service) and fault tolerant.
 
@@ -56,8 +56,8 @@ It has been added some features on top of Base Zuul:
 * a couple of filters: PreFilterZuul and PostFilterZuul to add pre and post routing easy to read logs.
 
 ## Routes.Store.Service
-It is a Spring boot application providing storage services for routes: retrieval, insertion and deletion. It listens on port 9305.
-It uses h2 and spring-data-jpa to implement the repository layer.
+It is a Spring boot application providing storage services for routes: retrieval, insertion and deletion. It listens on port 9305.  
+It uses h2 and spring-data-jpa to implement the repository layer.  
 It is a Eureka client.
 * See Api definition (/AdidasChallenge/StoreRoutes.apib)
 
@@ -66,7 +66,7 @@ It acts as a ResourceServer on Auth2:
 * Same symmetric secret key used to sign the token in the Authorization server is configured in the resource server to verify token
 
 ## Routes.Optimizer.Service
-It is a Spring boot application providing optimized itineraries service: given an origin city calculates the shortest path in time and then shortest path in hops from the origin city to all stored destinations. It listens on port 9405.
+It is a Spring boot application providing optimized itineraries service: given an origin city calculates the shortest path in time and then shortest path in hops from the origin city to all stored destinations. It listens on port 9405.  
 It relies on Routes.Store.Service to get available routes, then uses Dijkstra algorithm to calculate best itineraries:
 * Less travel duration optimized: directed graph with weight equal to travel duration: (departure – arrival)
 * Hops optimized: directed graph using the same weight on all the edges.
@@ -92,22 +92,22 @@ It acts as a ResourceServer on Auth2:
 
 ## Libraries used by Routes.SecureToken.Service
 
-###spring-cloud-starter-eureka
+### spring-cloud-starter-eureka
 * It enables this application to act as an Eureka Client. It is required specific configuration on application.yml to be able to reach EurekaServer.
 
-###spring-boot-starter-security
+### spring-boot-starter-security
 * It enables security on the application. It requires extra configuration provided by WebSecurityConfigurerAdapter (@EnableWebSecurity)
 
-###spring-security-oauth2
+### spring-security-oauth2
 * It enables oauth2 on the application. It requires extra configuration provided by AuthorizationServerConfigurerAdapter (@EnableAuthorizationServer)
 
-###spring-security-jwt
+### spring-security-jwt
 * Spring security oauth is very pluggable, adding this dependency it can be configured the TokenService to use JwtTokenStore 
 
 
 ## Libraries used by EurekaServer
 
-###org.springframework.cloud:spring-cloud-starter-eureka-server (Edgware.SR1)
+### org.springframework.cloud:spring-cloud-starter-eureka-server (Edgware.SR1)
 * It converts spring boot application EurekaServer into a real EurekaServer. 
 * It is required to add some specific configuration on the application.yml.
 * See EurekaServer readme (/AdidasChallenge/EurekaServer/readme.md) for more details.
@@ -136,13 +136,13 @@ It acts as a ResourceServer on Auth2:
 ### org.springframework.boot:spring-boot-starter-jersey
 * It is the JAX-RS 2.X Jersey implementation, used to implement REST features. Use of JAX-RS 2.X over Spring MVC is a matter of preference, I feel more comfortable using jersey.
 
-###spring-boot-starter-security
+### spring-boot-starter-security
 * It enables security on the application. It requires extra configuration provided by WebSecurityConfigurerAdapter (@EnableWebSecurity)
 
-###spring-security-oauth2
+### spring-security-oauth2
 * It enables oauth2 on the application. It requires extra configuration provided by ResourceServerConfig (@EnableResourceServer)
 
-###spring-security-jwt
+### spring-security-jwt
 * Spring security oauth is very pluggable, adding this dependency it can be configured the TokenService to use JwtTokenStore 
 
 ### org.springframework.boot:spring-boot-starter-test
@@ -155,11 +155,11 @@ It acts as a ResourceServer on Auth2:
 
 ### org.springframework.boot:spring-boot-starter-jersey 
 
-###spring-boot-starter-security
+### spring-boot-starter-security
 
-###spring-security-oauth2
+### spring-security-oauth2
 
-###spring-security-jwt
+### spring-security-jwt
 
 ### org.springframework.boot:spring-boot-starter-test
 
@@ -178,7 +178,7 @@ For the project, it is required to optimize by time and by hops:
 ## Download code
 * First, clone project from Github
 ```
-https://github.com/ManuelBaeta/AdidasChallenge.git
+https://github.com/ManuelBaeta/AdidasChallengeAll.git  
 ``` 
 
 Directory structure is quite straightforward:
@@ -196,7 +196,7 @@ cd <path-to>/AdidasChallengeAll
 mvn clean package
 ``` 
 
-Expected Results: All ok, 4 jars were built.
+Expected Results: All ok, 5 jars were built.
 ```
 [INFO] ------------------------------------------------------------------------  
 [INFO] Reactor Summary:  
@@ -218,21 +218,9 @@ Expected Results: All ok, 4 jars were built.
 
 ## Run on Dockers
 REMARK:   
-Dockerized microservices were deployed and tested on Windows 7 OS, therefore on a “Docker Toolbox on Windows” instead of newer “Docker for Mac” or “Docker for Windows”.  I don’t foresee any issue because of this, but if any problem arises I will fix as soon as possible.
+Dockerized microservices were deployed and tested on Windows 7 OS, therefore on a “Docker Toolbox on Windows” instead of newer “Docker for Mac” or “Docker for Windows”.  I don’t foresee any issue because of this, but when in the below chapters says "192.168.99.100" use localhost instead for newer Dockers versions.
 
-* Third, navigate to <path-to>/AdidasChallengeAll and check docker-compose.yml is present:
-```
-$ ll    
-...  
--rw-r--r-- 1 GZML7G 1049089  1838 Feb  3 18:00 docker-compose.yml  
-drwxr-xr-x 1 GZML7G 1049089     0 Feb  4 09:37 EurekaServer/  
-drwxr-xr-x 1 GZML7G 1049089     0 Feb  4 09:37 Routes.Optimizer.Service/  
-drwxr-xr-x 1 GZML7G 1049089     0 Feb  4 09:38 Routes.SecureToken.Service/  
-drwxr-xr-x 1 GZML7G 1049089     0 Feb  4 09:37 Routes.Store.Service/  
-drwxr-xr-x 1 GZML7G 1049089     0 Feb  4 09:37 Zuul/  
-```
-
-* Fourth, use docker-compose to build the images and run the containers at once:
+* Third, use docker-compose to build the images and run the containers in one go:
 ```
 $ docker-compose up -d  
 Starting eureka-server ...  
@@ -245,12 +233,13 @@ Starting routes-store-service ...
 Starting routes-store-service ... done  
 Starting routes-optimizer-service ...  
 Starting routes-optimizer-service ... done  
-```
+```  
+
 REMARK: 
 In case of problems with Docker image caching, try with docker-compose rm and docker-compose up -d again as suggested on 
 * [Stackoverflow](https://stackoverflow.com/questions/37454548/docker-compose-no-such-image/)
 
-* Fifth, check services are running
+* Fourh, check services are up and running
 ```
 $ docker-compose ps  
            Name                         Command               State                Ports  
@@ -263,17 +252,16 @@ routes-store-service         /bin/sh -c /usr/bin/java - ...   Up      0.0.0.0:93
 
 ```
 
-* Sixth, check services have fully started (on my computer I have wait for a while ...)
+* Fifth, check services are fully started
 ```
 $ docker-compose logs --follow 
 ....
 ```
 
-If we are reach, this point, all containers are running and ready to be tested.
-
 ## How to test
 REMARKS:  
-In order to execute test, it is required to know virtual box VM IP, it is usually 192.168.99.100
+* In order to execute test, it is required to know virtual box VM IP, it is usually 192.168.99.100
+* If you are not using Dockers ToolBox, disregard previous remark and use localhost instead.
 
 ```
 $ docker-machine ls  
@@ -281,16 +269,17 @@ NAME      ACTIVE   DRIVER       STATE     URL                         SWARM   DO
 default   *        virtualbox   Running   tcp://192.168.99.100:2376           v17.10.0-ce   
 ```
 
-EurekaServer will be reachable on http://192.168.99.100:8761 showing 4 connected applications: ROUTES-SECURETOKEN-SERVICE, ROUTES-OPTIMIZER-SERVICE, ROUTES-STORE-SERVICE and ZUUL-EDGE-ROUTER
+* If you are using Dockers ToolBox, then EurekaServer will be reachable on http://192.168.99.100:8761 showing 4 connected applications: ROUTES-SECURETOKEN-SERVICE, ROUTES-OPTIMIZER-SERVICE, ROUTES-STORE-SERVICE and ZUUL-EDGE-ROUTER
+* For the rest of Dockers versions: EurekaServer will be reachable on http://localhost:8761
 
 I have included 2 POSTMAN collections on AdidasChallengeAll folder:  
-###Fill_Routes.postman_collection_v2.json: to add a set of routes
+### Fill_Routes.postman_collection_v2.json: to add a set of routes
 * First it calls to authorization server to get a token to http://192.168.99.100:9505/oauth/token?grant_type=password&username=admin.admin&password=admin . It uses Http Basic security containing clientId and secret by means of Header Authorization: Basic base64enc(RouteSystemClient:XY7kmzoNzl100)   
   It contains a post-request script to set received token as an environmental variable.
   
 * Then It calls several  times to http://192.168.99.100:9100/routes-store-service/api/route to define several routes (simple scenario with 4 cities ZAR, MAD, GUA, BAR) with Header Authorization: Bearer {{token}} 
 
-###Store.Route.Service.postman_collection_v2.json: 
+### Store.Route.Service.postman_collection_v2.json: 
 It contains 5 calls:  
 * Add route: http://192.168.99.100:9100/routes-store-service/api/route to test adding routes on Routes.Store.Service with Header Authorization: Bearer {{token}} 
 * Get routes: http://192.168.99.100:9100/routes-store-service/api/route to test routes retrieval on Routes.Store.Service with Header Authorization: Bearer {{token}}   
@@ -298,6 +287,8 @@ It contains 5 calls:
 * Get optimized route: http://192.168.99.100:9100/routes-optimizer-service/api/route?origin=ZAR to test get optimized itineraries for a origin city with Header Authorization: Bearer {{token}}  
 * Get token: http://192.168.99.100:9505/oauth/token?grant_type=password&username=admin.admin&password=admin . It uses Http Basic security containing clientId and secret by means of Header Authorization: Basic base64enc(RouteSystemClient:XY7kmzoNzl100)   
   It contains a post-request script to set received token as an environmental variable.
+
+REMARK: Modify POSTMAN collections to use use localhost instead if not using Docker ToolBox.
 
 ## Troubleshooting
 Applications are packaged during maven build with an internal application.yml.
